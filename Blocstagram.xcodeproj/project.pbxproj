@@ -23,6 +23,10 @@
 		AA24BA6C1ABA20C400635E2B /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA24BA621ABA20C400635E2B /* 9.jpg */; };
 		AA24BA6D1ABA20C400635E2B /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA24BA631ABA20C400635E2B /* 10.jpg */; };
 		AA24BA731ABA212E00635E2B /* ImagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */; };
+		AAE1F1571ABB568F0046A783 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE1F1561ABB568F0046A783 /* User.m */; };
+		AAE1F15A1ABB57830046A783 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE1F1591ABB57830046A783 /* Media.m */; };
+		AAE1F15D1ABB58590046A783 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE1F15C1ABB58590046A783 /* Comment.m */; };
+		AAE1F1601ABB590C0046A783 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE1F15F1ABB590C0046A783 /* DataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +63,14 @@
 		AA24BA631ABA20C400635E2B /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
 		AA24BA711ABA212E00635E2B /* ImagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesTableViewController.h; sourceTree = "<group>"; };
 		AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesTableViewController.m; sourceTree = "<group>"; };
+		AAE1F1551ABB568F0046A783 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		AAE1F1561ABB568F0046A783 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		AAE1F1581ABB57830046A783 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
+		AAE1F1591ABB57830046A783 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		AAE1F15B1ABB58590046A783 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		AAE1F15C1ABB58590046A783 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		AAE1F15E1ABB590C0046A783 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		AAE1F15F1ABB590C0046A783 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +119,14 @@
 				AA24BA3B1ABA1F6900635E2B /* ViewController.m */,
 				AA24BA711ABA212E00635E2B /* ImagesTableViewController.h */,
 				AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */,
+				AAE1F1551ABB568F0046A783 /* User.h */,
+				AAE1F1561ABB568F0046A783 /* User.m */,
+				AAE1F1581ABB57830046A783 /* Media.h */,
+				AAE1F1591ABB57830046A783 /* Media.m */,
+				AAE1F15B1ABB58590046A783 /* Comment.h */,
+				AAE1F15C1ABB58590046A783 /* Comment.m */,
+				AAE1F15E1ABB590C0046A783 /* DataSource.h */,
+				AAE1F15F1ABB590C0046A783 /* DataSource.m */,
 				AA24BA401ABA1F6900635E2B /* Images.xcassets */,
 				AA24BA331ABA1F6900635E2B /* Supporting Files */,
 			);
@@ -264,6 +284,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAE1F15D1ABB58590046A783 /* Comment.m in Sources */,
+				AAE1F15A1ABB57830046A783 /* Media.m in Sources */,
+				AAE1F1601ABB590C0046A783 /* DataSource.m in Sources */,
+				AAE1F1571ABB568F0046A783 /* User.m in Sources */,
 				AA24BA3C1ABA1F6900635E2B /* ViewController.m in Sources */,
 				AA24BA391ABA1F6900635E2B /* AppDelegate.m in Sources */,
 				AA24BA361ABA1F6900635E2B /* main.m in Sources */,
@@ -441,6 +465,7 @@
 				AA24BA551ABA1F6900635E2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AA24BA561ABA1F6900635E2B /* Build configuration list for PBXNativeTarget "BlocstagramTests" */ = {
 			isa = XCConfigurationList;
@@ -449,6 +474,7 @@
 				AA24BA581ABA1F6900635E2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

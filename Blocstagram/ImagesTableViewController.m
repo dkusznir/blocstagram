@@ -53,7 +53,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+    Media *item = [[self items] objectAtIndex:indexPath.row];
     UIImage *image = item.image;
     
     return ((CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height);
@@ -79,7 +79,7 @@
         [cell.contentView addSubview:imageView];
     }
     
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+    Media *item = [[self items] objectAtIndex:indexPath.row];
     imageView.image = item.image;
     
     return cell;
@@ -93,8 +93,7 @@
 
 - (NSArray *)items
 {
-    NSArray *media = [NSArray array];
-    media = [DataSource sharedInstance].mediaItems;
+    NSArray *media = [DataSource sharedInstance].mediaItems;
     
     return media;
 }

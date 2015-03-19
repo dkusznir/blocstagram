@@ -22,6 +22,9 @@
 {
     self = [super initWithStyle:style];
     
+    NSMutableArray *media = [NSMutableArray arrayWithArray:[self items]];
+    self.mutableMediaItems = media;
+    
     return self;
 }
 
@@ -48,12 +51,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self items].count;
+    return [self mutableMediaItems].count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Media *item = [[self items] objectAtIndex:indexPath.row];
+    Media *item = [[self mutableMediaItems] objectAtIndex:indexPath.row];
     UIImage *image = item.image;
     
     return ((CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height);
@@ -79,7 +82,7 @@
         [cell.contentView addSubview:imageView];
     }
     
-    Media *item = [[self items] objectAtIndex:indexPath.row];
+    Media *item = [[self mutableMediaItems] objectAtIndex:indexPath.row];
     imageView.image = item.image;
     
     return cell;
@@ -98,7 +101,7 @@
     return media;
 }
 
-/*
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
@@ -107,7 +110,7 @@
         
         [tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self removeObjectAtIndex:indexPath.row];
+        [self.mutableMediaItems removeObjectAtIndex:indexPath.row];
         [tableView endUpdates];
         
     }
@@ -118,7 +121,7 @@
     }   
      
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

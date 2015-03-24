@@ -23,8 +23,8 @@
 {
     self = [super initWithStyle:style];
     
-    NSMutableArray *media = [NSMutableArray arrayWithArray:[self items]];
-    self.mutableMediaItems = media;
+    //NSMutableArray *media = [NSMutableArray arrayWithArray:[self items]];
+    //self.mutableMediaItems = media;
     
     return self;
 }
@@ -39,7 +39,14 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    [[DataSource sharedInstance] addObserver:self forKeyPath:@"mediaItems" options:0 context:nil];
+    
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
+}
+
+- (void) dealloc
+{
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:@"mediaItems"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,12 +59,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self mutableMediaItems].count;
+    
+    return [self items].count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Media *item = [[self mutableMediaItems] objectAtIndex:indexPath.row];
+    Media *item = [[self items] objectAtIndex:indexPath.row];
     
     return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 }
@@ -65,7 +73,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MediaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mediaCell" forIndexPath:indexPath];
-    cell.mediaItem = [[self mutableMediaItems] objectAtIndex:indexPath.row];
+    cell.mediaItem = [[self items] objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -76,6 +84,7 @@
     return YES;
 }
 
+
 - (NSArray *)items
 {
     NSArray *media = [DataSource sharedInstance].mediaItems;
@@ -83,6 +92,50 @@
     return media;
 }
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == [DataSource sharedInstance] && [keyPath isEqualToString:@"mediaItems"])
+    {
+        int kindOfChange = [change[NSKeyValueChangeKindKey] intValue];
+        
+        if (kindOfChange == NSKeyValueChangeSetting)
+        {
+            [self.tableView reloadData];
+        
+        }
+        
+        else if (kindOfChange == NSKeyValueChangeInsertion || kindOfChange == NSKeyValueChangeRemoval || kindOfChange == NSKeyValueChangeReplacement)
+        {
+            NSIndexSet *indexSetOfChanges = change[NSKeyValueChangeIndexesKey];
+            
+            NSMutableArray *indexPathsThatChanged = [NSMutableArray array];
+            
+            [indexSetOfChanges enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                [indexPathsThatChanged addObject:newIndexPath];
+            }];
+            
+            [self.tableView beginUpdates];
+            
+            if (kindOfChange == NSKeyValueChangeInsertion)
+            {
+                [self.tableView insertRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            else if (kindOfChange == NSKeyValueChangeRemoval)
+            {
+                [self.tableView deleteRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            else if (kindOfChange == NSKeyValueChangeReplacement)
+            {
+                [self.tableView reloadRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            [self.tableView endUpdates];
+        }
+    }
+}
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -90,18 +143,22 @@
     {
         // Delete the row from the data source
         
-        [tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.mutableMediaItems removeObjectAtIndex:indexPath.row];
-        [tableView endUpdates];
+        Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+        [[DataSource sharedInstance] deleteMediaItem:item];
         
+        /*
+         [tableView beginUpdates];
+         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+         [self.mutableMediaItems removeObjectAtIndex:indexPath.row];
+         [tableView endUpdates];
+         */
     }
     
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-     
+    }
+    
 }
 
 

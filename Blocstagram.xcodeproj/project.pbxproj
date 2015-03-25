@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA1E93071AC2FEC600E603FA /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E93061AC2FEC600E603FA /* LogInViewController.m */; };
 		AA24BA361ABA1F6900635E2B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA351ABA1F6900635E2B /* main.m */; };
 		AA24BA391ABA1F6900635E2B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA381ABA1F6900635E2B /* AppDelegate.m */; };
 		AA24BA3C1ABA1F6900635E2B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA3B1ABA1F6900635E2B /* ViewController.m */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA1E93051AC2FEC600E603FA /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		AA1E93061AC2FEC600E603FA /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		AA24BA301ABA1F6900635E2B /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA24BA341ABA1F6900635E2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA24BA351ABA1F6900635E2B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				AAE1F15C1ABB58590046A783 /* Comment.m */,
 				AAE1F15E1ABB590C0046A783 /* DataSource.h */,
 				AAE1F15F1ABB590C0046A783 /* DataSource.m */,
+				AA1E93051AC2FEC600E603FA /* LogInViewController.h */,
+				AA1E93061AC2FEC600E603FA /* LogInViewController.m */,
 				AA24BA401ABA1F6900635E2B /* Images.xcassets */,
 				AA24BA331ABA1F6900635E2B /* Supporting Files */,
 			);
@@ -291,6 +296,7 @@
 			files = (
 				AAE1F15D1ABB58590046A783 /* Comment.m in Sources */,
 				AAE1F15A1ABB57830046A783 /* Media.m in Sources */,
+				AA1E93071AC2FEC600E603FA /* LogInViewController.m in Sources */,
 				AA4A8D191ABC55190086C23B /* MediaTableViewCell.m in Sources */,
 				AAE1F1601ABB590C0046A783 /* DataSource.m in Sources */,
 				AAE1F1571ABB568F0046A783 /* User.m in Sources */,

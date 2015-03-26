@@ -181,6 +181,21 @@
     }
 }
 
+- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Media *item = [[self items] objectAtIndex:indexPath.row];
+    
+    if (item.image)
+    {
+        return 350;
+    }
+    
+    else
+    {
+        return 150;
+    }
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView

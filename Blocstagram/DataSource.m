@@ -104,7 +104,7 @@
         NSString *minID = [[self.mediaItems firstObject] idNumber];
         NSDictionary *parameters = [[NSDictionary alloc] init];
         
-        if (minID)
+        if (minID && self.mediaItems.count > 1)
         {
             parameters = @{@"min_id": minID};
         }

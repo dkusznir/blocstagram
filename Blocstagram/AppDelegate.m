@@ -44,6 +44,7 @@
         ImagesTableViewController *imagesVC = [[ImagesTableViewController alloc] init];
         [navVC setViewControllers:@[imagesVC] animated:YES];
     }
+    
     self.window.rootViewController = navVC;
     
     return YES;

@@ -26,6 +26,16 @@
 
 #pragma mark - NSCoding
 
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    if (self)
+    {
+        [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
+        [aCoder encodeObject:self.from forKey:NSStringFromSelector(@selector(from))];
+        [aCoder encodeObject:self.text forKey:NSStringFromSelector(@selector(text))];
+    }
+}
+
 - (instancetype) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
@@ -38,13 +48,6 @@
     }
     
     return self;
-}
-
-- (void) encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
-    [aCoder encodeObject:self.from forKey:NSStringFromSelector(@selector(from))];
-    [aCoder encodeObject:self.text forKey:NSStringFromSelector(@selector(text))];
 }
 
 @end

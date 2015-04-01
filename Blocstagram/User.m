@@ -34,6 +34,19 @@
 
 #pragma mark - NSCoding
 
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+    
+    if (self)
+    {
+        [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
+        [aCoder encodeObject:self.userName forKey:NSStringFromSelector(@selector(userName))];
+        [aCoder encodeObject:self.fullName forKey:NSStringFromSelector(@selector(fullName))];
+        [aCoder encodeObject:self.profilePicture forKey:NSStringFromSelector(@selector(profilePicture))];
+        [aCoder encodeObject:self.profilePictureURL forKey:NSStringFromSelector(@selector(profilePictureURL))];
+    }
+}
+
 - (instancetype) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
@@ -48,15 +61,6 @@
     }
     
     return self;
-}
-
-- (void) encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
-    [aCoder encodeObject:self.userName forKey:NSStringFromSelector(@selector(userName))];
-    [aCoder encodeObject:self.fullName forKey:NSStringFromSelector(@selector(fullName))];
-    [aCoder encodeObject:self.profilePicture forKey:NSStringFromSelector(@selector(profilePicture))];
-    [aCoder encodeObject:self.profilePictureURL forKey:NSStringFromSelector(@selector(profilePictureURL))];
 }
 
 @end

@@ -23,6 +23,7 @@
 @property (nonatomic, assign) BOOL isRefreshing;
 @property (nonatomic, assign) BOOL isLoadingOlderItems;
 @property (nonatomic, assign) BOOL thereAreNoMoreOlderMessages;
+@property (nonatomic, assign) BOOL imagesDidFinishLoading;
 
 @end
 
@@ -59,9 +60,18 @@
         
         else
         {
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *fullPath = [self pathForFileName:NSStringFromSelector(@selector(mediaItems))];
                 NSArray *storedMediaItems = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+                
+                for (Media *media in storedMediaItems)
+                {
+                    if (!media.image)
+                    {
+                        [self downloadImageForMediaItem:media];
+                    }
+                }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (storedMediaItems.count > 0)
@@ -86,44 +96,6 @@
     }
     
     return self;
-}
-
-#pragma mark - Key/Value Observing
-
-- (NSUInteger) countOfMediaItems
-{
-    return self.mediaItems.count;
-}
-
-- (id) objectInMediaItemsAtIndex:(NSUInteger)index
-{
-    return [self.mediaItems objectAtIndex:index];
-}
-
-- (NSArray *) mediaItemsAtIndexes:(NSIndexSet *)indexes
-{
-    return [self.mediaItems objectsAtIndexes:indexes];
-}
-
-- (void) insertObject:(Media *)object inMediaItemsAtIndex:(NSUInteger)index
-{
-    [_mediaItems insertObject:object atIndex:index];
-}
-
-- (void) removeObjectFromMediaItemsAtIndex:(NSUInteger)index
-{
-    [_mediaItems removeObjectAtIndex:index];
-}
-
-- (void) replaceObjectInMediaItemsAtIndex:(NSUInteger)index withObject:(id)object
-{
-    [_mediaItems replaceObjectAtIndex:index withObject:object];
-}
-
-- (void) deleteMediaItem:(Media *)item
-{
-    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
-    [mutableArrayWithKVO removeObject:item];
 }
 
 - (void) requestNewItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler
@@ -184,11 +156,51 @@
     }];
 }
 
+- (void) downloadImageForMediaItem:(Media *)mediaItem
+{
+
+    if (mediaItem.mediaURL && !mediaItem.image)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURLRequest *request = [NSURLRequest requestWithURL:mediaItem.mediaURL];
+            
+            NSURLResponse *response;
+            NSError *error;
+            NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if (imageData)
+            {
+                UIImage *image = [UIImage imageWithData:imageData];
+                
+                if (image)
+                {
+                    mediaItem.image = image;
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+                        NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+                        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
+                    });
+                }
+                
+                self.imagesDidFinishLoading = YES;
+
+            }
+            
+            
+            else
+            {
+                NSLog(@"Error downloading image: %@", error);
+            }
+        });
+    }
+}
+
 - (void) populateDataWithParameters:(NSDictionary *)parameters completionHandler:(NewItemCompletionBlock)completionHandler
 {
     if (self.accessToken)
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/users/self/feed?access_token=%@", self.accessToken];
             
             for (NSString *parameterName in parameters)
@@ -244,6 +256,15 @@
     }
 }
 
+- (NSString *) pathForFileName:(NSString *)fileName
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths firstObject];
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    
+    return dataPath;
+}
+
 - (void) parseDataFromFeedDictionary:(NSDictionary *)feedDictionary fromRequestWithParameters:(NSDictionary *)parameters
 {
     NSArray *mediaArray = feedDictionary[@"data"];
@@ -256,8 +277,8 @@
         
         if (mediaItem)
         {
-            [tmpMediaItems addObject:mediaItem];
             [self downloadImageForMediaItem:mediaItem];
+            [tmpMediaItems addObject:mediaItem];
         }
     }
     
@@ -295,9 +316,11 @@
             NSArray *mediaItemsToSave = [self.mediaItems subarrayWithRange:NSMakeRange(0, numberOfItemsToSave)];
             
             NSString *fullPath = [self pathForFileName:NSStringFromSelector(@selector(mediaItems))];
+            
             NSData *mediaItemData = [NSKeyedArchiver archivedDataWithRootObject:mediaItemsToSave];
             
             NSError *dataError;
+
             BOOL wroteSuccessfully = [mediaItemData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
             
             if (!wroteSuccessfully)
@@ -308,51 +331,43 @@
     }
 }
 
-- (void) downloadImageForMediaItem:(Media *)mediaItem
+
+#pragma mark - Key/Value Observing
+
+- (NSUInteger) countOfMediaItems
 {
-    if (mediaItem.mediaURL && !mediaItem.image)
-    {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSURLRequest *request = [NSURLRequest requestWithURL:mediaItem.mediaURL];
-            
-            NSURLResponse *response;
-            NSError *error;
-            NSData *imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            if (imageData)
-            {
-                UIImage *image = [UIImage imageWithData:imageData];
-                
-                if (image)
-                {
-                    mediaItem.image = image;
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
-                        NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
-                        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
-                    });
-                }
-            }
-            
-            else
-            {
-                NSLog(@"Error downloading image: %@", error);
-            }
-        });
-    }
+    return self.mediaItems.count;
 }
 
-- (NSString *) pathForFileName:(NSString *)fileName
+- (id) objectInMediaItemsAtIndex:(NSUInteger)index
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths firstObject];
-    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:fileName];
-    
-    return dataPath;
+    return [self.mediaItems objectAtIndex:index];
 }
 
+- (NSArray *) mediaItemsAtIndexes:(NSIndexSet *)indexes
+{
+    return [self.mediaItems objectsAtIndexes:indexes];
+}
 
+- (void) insertObject:(Media *)object inMediaItemsAtIndex:(NSUInteger)index
+{
+    [_mediaItems insertObject:object atIndex:index];
+}
 
+- (void) removeObjectFromMediaItemsAtIndex:(NSUInteger)index
+{
+    [_mediaItems removeObjectAtIndex:index];
+}
+
+- (void) replaceObjectInMediaItemsAtIndex:(NSUInteger)index withObject:(id)object
+{
+    [_mediaItems replaceObjectAtIndex:index withObject:object];
+}
+
+- (void) deleteMediaItem:(Media *)item
+{
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    [mutableArrayWithKVO removeObject:item];
+}
 
 @end

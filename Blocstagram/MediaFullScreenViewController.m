@@ -8,12 +8,14 @@
 
 #import "MediaFullScreenViewController.h"
 #import "Media.h"
+#import "ImagesTableViewController.h"
 
 @interface MediaFullScreenViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@property (nonatomic, strong) UIButton *shareButton;
 
 @end
 
@@ -55,6 +57,59 @@
     
     [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
+    
+    CGFloat getMaxX = (CGRectGetMaxX(self.view.frame) - 110);
+    CGFloat getMinY = (CGRectGetMinY(self.view.frame) + 20);
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(getMaxX, getMinY, 100, 50)];
+    self.shareButton = button;
+    [self.shareButton setTitle:NSLocalizedString(@"SHARE", @"Share") forState:UIControlStateNormal];
+    self.shareButton.backgroundColor = [UIColor colorWithRed:102/255.0 green:128/255.0 blue:153/255.0 alpha:1];
+    self.shareButton.layer.cornerRadius = 10;
+    self.shareButton.titleLabel.font = [UIFont fontWithName:@"Calibri-Bold" size:20];
+    self.shareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [self.shareButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchDown];
+    [self.shareButton addTarget:self action:@selector(buttonReleased:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.shareButton];
+}
+
+- (void) buttonPressed:(UIButton *)sender
+{
+    [sender setAlpha:0.5];
+}
+
+- (void) buttonReleased:(UIButton *)sender
+{
+    [sender setAlpha:1.0];
+    
+    if (self.media.image)
+    {
+        [self didSelect:nil];
+    }
+}
+
+- (void) didSelect:(UIImageView *)imageView
+{
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    
+    if (self.media.caption.length > 0)
+    {
+        [itemsToShare addObject:self.media.caption];
+    }
+    
+    if (self.media.image)
+    {
+        [itemsToShare addObject:self.media.image];
+    }
+    
+    if (itemsToShare > 0)
+    {
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        [self presentViewController:activityVC animated:YES completion:nil];
+    }
 }
 
 - (void) viewWillLayoutSubviews
@@ -132,7 +187,7 @@
     {
         CGPoint locationPoint = [sender locationInView:self.imageView];
         
-        CGSize scrollViewSize = self.scrollView.bounds.size;
+        CGSize scrollViewSize = self.view.frame.size;
         
         CGFloat width = scrollViewSize.width / self.scrollView.maximumZoomScale;
         CGFloat height = scrollViewSize.height / self.scrollView.maximumZoomScale;

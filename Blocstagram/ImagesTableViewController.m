@@ -18,6 +18,7 @@
 @interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
+@property (nonatomic, strong) Media *media;
 
 @end
 
@@ -244,7 +245,7 @@
 }
 
 
-- (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
+- (void) cell:(MediaTableViewCell *)cell orMedia:(Media *)media didLongPressImageView:(UIImageView *)imageView
 {
     NSMutableArray *itemsToShare = [NSMutableArray array];
     
@@ -253,9 +254,19 @@
         [itemsToShare addObject:cell.mediaItem.caption];
     }
     
+    else if (self.media.caption.length > 0)
+    {
+        [itemsToShare addObject:self.media.caption];
+    }
+
     if (cell.mediaItem.image)
     {
         [itemsToShare addObject:cell.mediaItem.image];
+    }
+    
+    else if (self.media.image)
+    {
+        [itemsToShare addObject:self.media.image];
     }
     
     if (itemsToShare.count > 0)
@@ -264,6 +275,7 @@
         [self presentViewController:activityVC animated:YES completion:nil];
     }
 }
+
 /*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {

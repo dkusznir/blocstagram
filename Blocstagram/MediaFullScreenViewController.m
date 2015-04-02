@@ -8,6 +8,7 @@
 
 #import "MediaFullScreenViewController.h"
 #import "Media.h"
+#import "MediaTableViewCell.h"
 #import "ImagesTableViewController.h"
 
 @interface MediaFullScreenViewController () <UIScrollViewDelegate>
@@ -44,6 +45,7 @@
     
     self.imageView = [UIImageView new];
     self.imageView.image = self.media.image;
+    
     
     [self.scrollView addSubview:self.imageView];
     self.scrollView.contentSize = self.media.image.size;
@@ -83,33 +85,8 @@
 
 - (void) buttonReleased:(UIButton *)sender
 {
+    [self.delegate didSelectMedia:self.media];
     [sender setAlpha:1.0];
-    
-    if (self.media.image)
-    {
-        [self didSelect:nil];
-    }
-}
-
-- (void) didSelect:(UIImageView *)imageView
-{
-    NSMutableArray *itemsToShare = [NSMutableArray array];
-    
-    if (self.media.caption.length > 0)
-    {
-        [itemsToShare addObject:self.media.caption];
-    }
-    
-    if (self.media.image)
-    {
-        [itemsToShare addObject:self.media.image];
-    }
-    
-    if (itemsToShare > 0)
-    {
-        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-        [self presentViewController:activityVC animated:YES completion:nil];
-    }
 }
 
 - (void) viewWillLayoutSubviews
@@ -179,6 +156,7 @@
 - (void) tapFired:(UITapGestureRecognizer *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (void) doubleTapFired:(UITapGestureRecognizer *)sender

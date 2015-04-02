@@ -12,10 +12,10 @@
 #import "Comment.h"
 #import "DataSource.h"
 #import "MediaTableViewCell.h"
-#import "MediaFullScreenViewController.h"
 #import "MediaFullScreenAnimator.h"
+#import "MediaFullScreenViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate>
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate, MediaFullScreenDelegate>
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, strong) Media *media;
@@ -245,7 +245,19 @@
 }
 
 
-- (void) cell:(MediaTableViewCell *)cell orMedia:(Media *)media didLongPressImageView:(UIImageView *)imageView
+- (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
+{
+    
+    [self media:nil orCell:cell orDidLongPressImageView:imageView];
+    
+}
+
+- (void) didSelectMedia:(Media *)media
+{
+    [self media:media orCell:nil orDidLongPressImageView:nil];
+}
+
+- (void) media:(Media *)media orCell:(MediaTableViewCell *)cell orDidLongPressImageView:(UIImageView *)imageView
 {
     NSMutableArray *itemsToShare = [NSMutableArray array];
     
@@ -258,7 +270,7 @@
     {
         [itemsToShare addObject:self.media.caption];
     }
-
+    
     if (cell.mediaItem.image)
     {
         [itemsToShare addObject:cell.mediaItem.image];

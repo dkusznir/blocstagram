@@ -116,7 +116,7 @@ static NSParagraphStyle *paragraphStyle;
 {
     if (sender.state == UIGestureRecognizerStateBegan)
     {
-        [self.delegate cell:self orMedia:nil didLongPressImageView:self.mediaImageView];
+        [self.delegate cell:self didLongPressImageView:self.mediaImageView];
     }
 }
 

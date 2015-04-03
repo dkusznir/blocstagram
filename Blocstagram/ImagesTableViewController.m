@@ -15,7 +15,7 @@
 #import "MediaFullScreenAnimator.h"
 #import "MediaFullScreenViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate, MediaFullScreenDelegate>
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, strong) Media *media;
@@ -222,6 +222,7 @@
     fullScreenVC.modalPresentationStyle = UIModalPresentationCustom;
     
     [self presentViewController:fullScreenVC animated:YES completion:nil];
+    
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate
@@ -248,44 +249,14 @@
 - (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
 {
     
-    [self media:nil orCell:cell orDidLongPressImageView:imageView];
+    NSArray *cellPropertiesToShare = [cell.mediaItem mediaPropertiesToShare:cell.mediaItem];
     
-}
-
-- (void) didSelectMedia:(Media *)media
-{
-    [self media:media orCell:nil orDidLongPressImageView:nil];
-}
-
-- (void) media:(Media *)media orCell:(MediaTableViewCell *)cell orDidLongPressImageView:(UIImageView *)imageView
-{
-    NSMutableArray *itemsToShare = [NSMutableArray array];
-    
-    if (cell.mediaItem.caption.length > 0)
+    if (cellPropertiesToShare.count > 0)
     {
-        [itemsToShare addObject:cell.mediaItem.caption];
-    }
-    
-    else if (self.media.caption.length > 0)
-    {
-        [itemsToShare addObject:self.media.caption];
-    }
-    
-    if (cell.mediaItem.image)
-    {
-        [itemsToShare addObject:cell.mediaItem.image];
-    }
-    
-    else if (self.media.image)
-    {
-        [itemsToShare addObject:self.media.image];
-    }
-    
-    if (itemsToShare.count > 0)
-    {
-        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:cellPropertiesToShare applicationActivities:nil];
         [self presentViewController:activityVC animated:YES completion:nil];
     }
+    
 }
 
 /*

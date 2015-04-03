@@ -85,7 +85,14 @@
 
 - (void) buttonReleased:(UIButton *)sender
 {
-    [self.delegate didSelectMedia:self.media];
+    NSArray *mediaItemsToShare = [self.media mediaPropertiesToShare:self.media];
+    
+    if (mediaItemsToShare.count > 0)
+    {
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:mediaItemsToShare applicationActivities:nil];
+        [self presentViewController:activityVC animated:YES completion:nil];
+    }
+    
     [sender setAlpha:1.0];
 }
 

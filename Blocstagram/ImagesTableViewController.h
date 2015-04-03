@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class Media, MediaTableViewCell;
+
 @interface ImagesTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *mutableMediaItems;

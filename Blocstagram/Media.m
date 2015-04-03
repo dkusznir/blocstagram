@@ -8,6 +8,8 @@
 
 #import "Media.h"
 
+@class MediaTableViewCell;
+
 @implementation Media
 
 - (instancetype) initWithDictionary:(NSDictionary *)mediaDictionary
@@ -88,4 +90,30 @@
     return self;
 }
 
+- (NSArray *) mediaPropertiesToShare:(Media *)media
+{
+    
+    if (media)
+    {
+        NSMutableArray *itemsToAdd = [[NSMutableArray alloc] init];
+        
+        if (media.caption.length > 0)
+        {
+            [itemsToAdd addObject:media.caption];
+        }
+        
+        if (media.image)
+        {
+            [itemsToAdd addObject:media.image];
+        }
+        
+        NSArray *mediaPropertiesArray = [NSArray arrayWithArray:itemsToAdd];
+        
+        return mediaPropertiesArray;
+
+    }
+    
+    return nil;
+    
+}
 @end

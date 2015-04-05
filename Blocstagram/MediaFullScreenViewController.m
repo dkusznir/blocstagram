@@ -16,7 +16,6 @@
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
-@property (nonatomic, strong) UIButton *shareButton;
 
 @end
 
@@ -163,7 +162,6 @@
 - (void) tapFired:(UITapGestureRecognizer *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 - (void) doubleTapFired:(UITapGestureRecognizer *)sender

@@ -192,6 +192,7 @@
             {
                 NSLog(@"Error downloading image: %@", error);
             }
+            
         });
     }
 }
@@ -329,6 +330,7 @@
             }
         });
     }
+    
 }
 
 

@@ -43,6 +43,11 @@
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:YES];
         }];
+        
+        [UIButton animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+            fullScreenVC.shareButton.alpha = 0.0;
+            fullScreenVC.shareButton.alpha = 1.0;
+        }];
     }
     
     else
@@ -69,6 +74,12 @@
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:YES];
         }];
+        
+        [UIButton animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+            fullScreenVC.shareButton.alpha = 1.0;
+            fullScreenVC.shareButton.alpha = 0.0;
+        }];
+    
     }
 }
 @end

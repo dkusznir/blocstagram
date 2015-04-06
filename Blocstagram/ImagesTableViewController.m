@@ -225,6 +225,27 @@
     
 }
 
+- (void) cell:(MediaTableViewCell *)cell didTwoTouchTap:(UIView *)cellContentView
+{
+    if (!cell.mediaItem.image)
+    {
+        [[DataSource sharedInstance] downloadImageForMediaItem:cell.mediaItem];
+    }
+}
+
+- (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
+{
+    
+    NSArray *cellPropertiesToShare = [cell.mediaItem mediaPropertiesToShare:cell.mediaItem];
+    
+    if (cellPropertiesToShare.count > 0)
+    {
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:cellPropertiesToShare applicationActivities:nil];
+        [self presentViewController:activityVC animated:YES completion:nil];
+    }
+    
+}
+
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
@@ -243,20 +264,6 @@
     MediaFullScreenAnimator *animator = [MediaFullScreenAnimator new];
     animator.cellImageView = self.lastTappedImageView;
     return animator;
-}
-
-
-- (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
-{
-    
-    NSArray *cellPropertiesToShare = [cell.mediaItem mediaPropertiesToShare:cell.mediaItem];
-    
-    if (cellPropertiesToShare.count > 0)
-    {
-        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:cellPropertiesToShare applicationActivities:nil];
-        [self presentViewController:activityVC animated:YES completion:nil];
-    }
-    
 }
 
 /*

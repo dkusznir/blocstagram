@@ -19,6 +19,7 @@
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, strong) Media *media;
+@property (nonatomic, assign) BOOL isScrolling;
 
 @end
 
@@ -69,6 +70,53 @@
 {
     
     return [self items].count;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    /*
+    NSArray *indexPaths = [self.tableView indexPathsForVisibleRows];
+    
+    NSLog(@"Visible Paths: %d", indexPaths.count);
+    
+    for (NSIndexPath *path in indexPaths)
+    {
+        Media *mediaItem = [[self items] objectAtIndex:path.row];
+        
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
+    }
+    */
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+}
+
+- (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    scrollView.decelerationRate = 100;
+    
+    if (scrollView.decelerating)
+    {
+        //NSArray *visibleCells = [self.tableView visibleCells];
+        NSArray *indexPathsVisible = [self.tableView indexPathsForVisibleRows];
+        NSMutableArray *mutableIndex = [indexPathsVisible mutableCopy];
+        
+        for (NSIndexPath *path in mutableIndex)
+        {
+            Media *mediaItem = [[self items] objectAtIndex:path.row];
+            
+            if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+            {
+                [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+            }
+        
+        }
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -186,6 +234,7 @@
         [[DataSource sharedInstance] requestOldItemsWithCompletionHandler:nil];
     }
 }
+
 
 - (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

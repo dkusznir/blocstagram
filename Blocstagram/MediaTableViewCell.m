@@ -189,7 +189,7 @@ static NSParagraphStyle *paragraphStyle;
     
     else
     {
-        self.imageHeightConstraint.constant = 0;
+        self.imageHeightConstraint.constant = (CGRectGetHeight(self.contentView.bounds) / 2);
     }
 
     self.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGRectGetWidth(self.bounds));

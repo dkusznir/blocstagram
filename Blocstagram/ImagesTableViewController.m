@@ -51,6 +51,77 @@
     [self.refreshControl addTarget:self action:@selector(refreshControlDidFire:) forControlEvents:UIControlEventValueChanged];
     
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
+    
+    //NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 5)];
+    
+    //tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+    /*
+    for (int i = 0; i < 6; i++)
+    {
+        UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        NSLog(@"%@", cell);
+    }
+     */
+    /*
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (int i = 0; i < 5; i++)
+    {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+        [array addObject:path];
+    }
+    
+    
+    
+    
+    for (Media *media in array)
+    {
+        if (media.downloadState == MediaDownloadStateNeedsImage)
+        {
+            NSLog(@"Needs Image");
+        }
+    }
+     
+    
+    //NSMutableArray *anotherArray = [NSMutableArray array];
+    for (NSIndexPath *path2 in array)
+    {
+        Media *media = [[self items] objectAtIndex:path2.row];
+        if (media.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:media];
+            NSLog(@"Downloading image");
+        }
+    }
+    
+    */
+    for (NSInteger i = 0; i < 5; i++)
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        
+        MediaTableViewCell *cell = [[MediaTableViewCell alloc] init];
+        
+        cell.mediaItem = [[self items] objectAtIndex:indexPath.row];
+
+        if (cell.mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:cell.mediaItem];
+        }
+    }
+    
+    
+    
+    /*
+        mediaItem = [[self items] objectAtIndex:indexPath.row];
+
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            NSLog(@"Needs image");
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
+    }
+    */
+    
 }
 
 - (void) dealloc
@@ -68,32 +139,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return [self items].count;
-}
-
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    /*
-    NSArray *indexPaths = [self.tableView indexPathsForVisibleRows];
-    
-    NSLog(@"Visible Paths: %d", indexPaths.count);
-    
-    for (NSIndexPath *path in indexPaths)
-    {
-        Media *mediaItem = [[self items] objectAtIndex:path.row];
-        
-        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-        {
-            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-        }
-    }
-    */
-}
-
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
 }
 
 - (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
@@ -102,20 +148,7 @@
     
     if (scrollView.decelerating)
     {
-        //NSArray *visibleCells = [self.tableView visibleCells];
-        NSArray *indexPathsVisible = [self.tableView indexPathsForVisibleRows];
-        NSMutableArray *mutableIndex = [indexPathsVisible mutableCopy];
-        
-        for (NSIndexPath *path in mutableIndex)
-        {
-            Media *mediaItem = [[self items] objectAtIndex:path.row];
-            
-            if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-            {
-                [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-            }
-        
-        }
+        [self downloadImageForVisibleIndex];
     }
 }
 
@@ -256,7 +289,24 @@
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self infiniteScrollIfNecessary];
-    NSLog(@"Did call infiniteScroll");
+    [self downloadImageForVisibleIndex];
+}
+
+- (void) downloadImageForVisibleIndex
+{
+    NSArray *indexPathsVisible = [self.tableView indexPathsForVisibleRows];
+    NSMutableArray *mutableIndex = [indexPathsVisible mutableCopy];
+    
+    for (NSIndexPath *path in mutableIndex)
+    {
+        Media *mediaItem = [[self items] objectAtIndex:path.row];
+        
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
+        
+    }
 }
 
 #pragma mark - MediaTableViewCellDelegate

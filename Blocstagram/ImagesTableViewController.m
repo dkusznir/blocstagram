@@ -52,76 +52,6 @@
     
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
     
-    //NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 5)];
-    
-    //tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-    /*
-    for (int i = 0; i < 6; i++)
-    {
-        UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        NSLog(@"%@", cell);
-    }
-     */
-    /*
-    NSMutableArray *array = [NSMutableArray array];
-    
-    for (int i = 0; i < 5; i++)
-    {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-        [array addObject:path];
-    }
-    
-    
-    
-    
-    for (Media *media in array)
-    {
-        if (media.downloadState == MediaDownloadStateNeedsImage)
-        {
-            NSLog(@"Needs Image");
-        }
-    }
-     
-    
-    //NSMutableArray *anotherArray = [NSMutableArray array];
-    for (NSIndexPath *path2 in array)
-    {
-        Media *media = [[self items] objectAtIndex:path2.row];
-        if (media.downloadState == MediaDownloadStateNeedsImage)
-        {
-            [[DataSource sharedInstance] downloadImageForMediaItem:media];
-            NSLog(@"Downloading image");
-        }
-    }
-    
-    */
-    for (NSInteger i = 0; i < 5; i++)
-    {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        MediaTableViewCell *cell = [[MediaTableViewCell alloc] init];
-        
-        cell.mediaItem = [[self items] objectAtIndex:indexPath.row];
-
-        if (cell.mediaItem.downloadState == MediaDownloadStateNeedsImage)
-        {
-            [[DataSource sharedInstance] downloadImageForMediaItem:cell.mediaItem];
-        }
-    }
-    
-    
-    
-    /*
-        mediaItem = [[self items] objectAtIndex:indexPath.row];
-
-        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-        {
-            NSLog(@"Needs image");
-            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-        }
-    }
-    */
-    
 }
 
 - (void) dealloc
@@ -140,6 +70,28 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self items].count;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (int i = 0; i < 5; i++)
+    {
+        [array addObject:mediaItem];
+    }
+    
+    for (int i = 0; i < array.count; i++)
+    {
+        Media *mediaItem = array[i];
+        
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
+    }
+    
 }
 
 - (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
@@ -173,7 +125,6 @@
     //Return NO if you do not want the specified item to be editable.
     return YES;
 }
-
 
 - (NSArray *)items
 {

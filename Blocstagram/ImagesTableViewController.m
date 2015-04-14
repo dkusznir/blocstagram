@@ -75,23 +75,11 @@
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    NSMutableArray *array = [NSMutableArray array];
     
-    for (int i = 0; i < 5; i++)
+    if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
     {
-        [array addObject:mediaItem];
+        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
-    
-    for (int i = 0; i < array.count; i++)
-    {
-        Media *mediaItem = array[i];
-        
-        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-        {
-            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-        }
-    }
-    
 }
 
 - (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
@@ -294,6 +282,16 @@
         [self presentViewController:activityVC animated:YES completion:nil];
     }
     
+}
+
+- (void) cellDidPressLikeButton:(MediaTableViewCell *)cell
+{
+    [[DataSource sharedInstance] toggleLikeOnMediaItem:cell.mediaItem];
+}
+
+- (void) cellGetNumberOfLikes:(MediaTableViewCell *)cell
+{
+    [[DataSource sharedInstance] updateNumberOfLikes:cell.mediaItem];
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate

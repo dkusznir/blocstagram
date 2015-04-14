@@ -56,6 +56,13 @@
         }
         
         self.comments = commentsArray;
+        
+        BOOL userHasLiked = [mediaDictionary[@"user_has_liked"] boolValue];
+        
+        self.likeState = userHasLiked ? likeStateLiked : likeStateNotLiked;
+        
+        NSUInteger myInt = [mediaDictionary[@"likes"][@"count"] integerValue];
+        self.numberOfLikes = myInt;
     }
     
     
@@ -64,16 +71,17 @@
 
 #pragma mark - NSCoding
 
-
 - (void) encodeWithCoder:(NSCoder *)aCoder
 
 {
-        [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
-        [aCoder encodeObject:self.user forKey:NSStringFromSelector(@selector(user))];
-        [aCoder encodeObject:self.mediaURL forKey:NSStringFromSelector(@selector(mediaURL))];
-        [aCoder encodeObject:self.image forKey:NSStringFromSelector(@selector(image))];
-        [aCoder encodeObject:self.caption forKey:NSStringFromSelector(@selector(caption))];
-        [aCoder encodeObject:self.comments forKey:NSStringFromSelector(@selector(comments))];
+    [aCoder encodeObject:self.idNumber forKey:NSStringFromSelector(@selector(idNumber))];
+    [aCoder encodeObject:self.user forKey:NSStringFromSelector(@selector(user))];
+    [aCoder encodeObject:self.mediaURL forKey:NSStringFromSelector(@selector(mediaURL))];
+    [aCoder encodeObject:self.image forKey:NSStringFromSelector(@selector(image))];
+    [aCoder encodeObject:self.caption forKey:NSStringFromSelector(@selector(caption))];
+    [aCoder encodeObject:self.comments forKey:NSStringFromSelector(@selector(comments))];
+    [aCoder encodeInteger:self.likeState forKey:NSStringFromSelector(@selector(likeState))];
+    [aCoder encodeInteger:self.numberOfLikes forKey:NSStringFromSelector(@selector(numberOfLikes))];
     
 }
 
@@ -105,6 +113,8 @@
         
         self.caption = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(caption))];
         self.comments = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(comments))];
+        self.likeState = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(likeState))];
+        self.numberOfLikes = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(numberOfLikes))];
     }
     
     return self;

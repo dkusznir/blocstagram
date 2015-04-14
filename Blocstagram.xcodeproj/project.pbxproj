@@ -26,6 +26,8 @@
 		AA24BA6D1ABA20C400635E2B /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA24BA631ABA20C400635E2B /* 10.jpg */; };
 		AA24BA731ABA212E00635E2B /* ImagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */; };
 		AA4A8D191ABC55190086C23B /* MediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */; };
+		AA7951091AD814400033DD49 /* CircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7951081AD814400033DD49 /* CircleSpinnerView.m */; };
+		AA79510C1AD840800033DD49 /* LikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AA79510B1AD840800033DD49 /* LikeButton.m */; };
 		AABDAE5F1ACB4E3C00A9402F /* MediaFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDAE5E1ACB4E3C00A9402F /* MediaFullScreenViewController.m */; };
 		AABDAE621ACB503000A9402F /* MediaFullScreenAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDAE611ACB503000A9402F /* MediaFullScreenAnimator.m */; };
 		AAE1F1571ABB568F0046A783 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE1F1561ABB568F0046A783 /* User.m */; };
@@ -73,6 +75,10 @@
 		AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesTableViewController.m; sourceTree = "<group>"; };
 		AA4A8D171ABC55190086C23B /* MediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTableViewCell.h; sourceTree = "<group>"; };
 		AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTableViewCell.m; sourceTree = "<group>"; };
+		AA7951071AD814400033DD49 /* CircleSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleSpinnerView.h; sourceTree = "<group>"; };
+		AA7951081AD814400033DD49 /* CircleSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleSpinnerView.m; sourceTree = "<group>"; };
+		AA79510A1AD840800033DD49 /* LikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeButton.h; sourceTree = "<group>"; };
+		AA79510B1AD840800033DD49 /* LikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeButton.m; sourceTree = "<group>"; };
 		AABDAE5D1ACB4E3C00A9402F /* MediaFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFullScreenViewController.h; sourceTree = "<group>"; };
 		AABDAE5E1ACB4E3C00A9402F /* MediaFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaFullScreenViewController.m; sourceTree = "<group>"; };
 		AABDAE601ACB503000A9402F /* MediaFullScreenAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFullScreenAnimator.h; sourceTree = "<group>"; };
@@ -154,7 +160,10 @@
 				AA24BA381ABA1F6900635E2B /* AppDelegate.m */,
 				AA4A8D171ABC55190086C23B /* MediaTableViewCell.h */,
 				AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */,
-				AA24BA401ABA1F6900635E2B /* Images.xcassets */,
+				AA7951071AD814400033DD49 /* CircleSpinnerView.h */,
+				AA7951081AD814400033DD49 /* CircleSpinnerView.m */,
+				AA79510A1AD840800033DD49 /* LikeButton.h */,
+				AA79510B1AD840800033DD49 /* LikeButton.m */,
 				AA24BA591ABA205600635E2B /* Images */,
 				AA24BA331ABA1F6900635E2B /* Supporting Files */,
 			);
@@ -190,6 +199,7 @@
 		AA24BA591ABA205600635E2B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AA24BA401ABA1F6900635E2B /* Images.xcassets */,
 				AA24BA5A1ABA20C400635E2B /* 1.jpg */,
 				AA24BA5B1ABA20C400635E2B /* 2.jpg */,
 				AA24BA5C1ABA20C400635E2B /* 3.jpg */,
@@ -387,9 +397,11 @@
 				AAE1F1571ABB568F0046A783 /* User.m in Sources */,
 				AA24BA3C1ABA1F6900635E2B /* ViewController.m in Sources */,
 				AABDAE5F1ACB4E3C00A9402F /* MediaFullScreenViewController.m in Sources */,
+				AA79510C1AD840800033DD49 /* LikeButton.m in Sources */,
 				AA24BA391ABA1F6900635E2B /* AppDelegate.m in Sources */,
 				AA24BA361ABA1F6900635E2B /* main.m in Sources */,
 				AABDAE621ACB503000A9402F /* MediaFullScreenAnimator.m in Sources */,
+				AA7951091AD814400033DD49 /* CircleSpinnerView.m in Sources */,
 				AA24BA731ABA212E00635E2B /* ImagesTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

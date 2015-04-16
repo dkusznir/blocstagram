@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Media, MediaTableViewCell;
+@class Media, MediaTableViewCell, LikeButton;
 
 @protocol MediaTableViewCellDelegate <NSObject>
 
@@ -16,7 +16,7 @@
 - (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)cellContentView;
 - (void) cell:(MediaTableViewCell *)cell didTwoTouchTap:(UIView *)imageView;
 - (void) cellDidPressLikeButton:(MediaTableViewCell *)cell;
-- (void) cellGetNumberOfLikes:(MediaTableViewCell *)cell;
+//- (void) cellGetNumberOfLikes:(MediaTableViewCell *)cell;
 
 @end
 

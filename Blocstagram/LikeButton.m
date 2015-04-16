@@ -35,6 +35,7 @@
         self.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
         
         self.likeButtonState = likeStateNotLiked;
+        
     }
     
     return self;

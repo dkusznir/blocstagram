@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Media, MediaTableViewCell;
+@class Media, MediaTableViewCell, LikeButton;
 
 @interface ImagesTableViewController : UITableViewController
 

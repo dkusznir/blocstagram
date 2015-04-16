@@ -287,12 +287,15 @@
 - (void) cellDidPressLikeButton:(MediaTableViewCell *)cell
 {
     [[DataSource sharedInstance] toggleLikeOnMediaItem:cell.mediaItem];
+    
 }
 
+/*
 - (void) cellGetNumberOfLikes:(MediaTableViewCell *)cell
 {
     [[DataSource sharedInstance] updateNumberOfLikes:cell.mediaItem];
 }
+ */
 
 #pragma mark - UIViewControllerTransitioningDelegate
 

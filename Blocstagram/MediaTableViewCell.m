@@ -211,9 +211,10 @@ static NSParagraphStyle *paragraphStyle;
     
 }
 
+
 - (NSString *)updateNumberOfLikes:(Media *)mediaItem
 {
-    [self.delegate cellGetNumberOfLikes:self];
+    //[self.delegate cellGetNumberOfLikes:self];
     NSString *numberOfLikesToString = [NSString stringWithFormat:@"%lu", self.mediaItem.numberOfLikes];
     self.numberOfLikes.text = numberOfLikesToString;
     
@@ -227,7 +228,7 @@ static NSParagraphStyle *paragraphStyle;
     self.usernameAndCaptionLabel.attributedText = [self userNameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = _mediaItem.likeState;
-    self.numberOfLikes.text = [NSString stringWithFormat:@"%lu", (long)_mediaItem.numberOfLikes];
+    self.numberOfLikes.text = [NSString stringWithFormat:@"%lu", _mediaItem.numberOfLikes];
 }
 
 #pragma mark - Liking
@@ -235,6 +236,8 @@ static NSParagraphStyle *paragraphStyle;
 {
     [self.delegate cellDidPressLikeButton:self];
     [self updateNumberOfLikes:self.mediaItem];
+    NSLog(@"%ld", self.likeButton.likeButtonState);
+
 }
 
 #pragma mark - Image View

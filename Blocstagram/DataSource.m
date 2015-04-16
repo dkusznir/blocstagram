@@ -373,10 +373,9 @@
         mediaItem.likeState = likeStateLiking;
         
         [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            mediaItem.numberOfLikes++;
             mediaItem.likeState = likeStateLiked;
-            likeStateChanged = YES;
             [self reloadMediaItem:mediaItem];
-            [self updateNumberOfLikes:mediaItem];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"%@", error);
             mediaItem.likeState = likeStateNotLiked;
@@ -388,10 +387,20 @@
         mediaItem.likeState = likeStateUnliking;
         
         [self.instagramOperationManager DELETE:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            if (mediaItem.numberOfLikes == 0)
+            {
+                mediaItem.numberOfLikes = 0;
+            }
+            
+            else
+            {
+                mediaItem.numberOfLikes--;
+            }
+            
             mediaItem.likeState = likeStateNotLiked;
             likeStateChanged = YES;
             [self reloadMediaItem:mediaItem];
-            [self updateNumberOfLikes:mediaItem];
+
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             mediaItem.likeState = likeStateLiked;
             NSLog(@"%@", error);
@@ -440,7 +449,7 @@
     }
     
     [self reloadMediaItem:mediaItem];
-
+    
 }
 
 - (void) reloadMediaItem:(Media *)mediaItem
@@ -451,13 +460,8 @@
     
 }
 
-- (void) reloadLike:(LikeButton *)likeButton
-{
-    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"likeButtonState"];
-    NSUInteger index = [mutableArrayWithKVO indexOfObject:likeButton];
-    [mutableArrayWithKVO replaceObjectAtIndex:index withObject:likeButton];
-    
-}
+
+/*
 - (void) updateNumberOfLikes:(Media *)mediaItem
 {
     NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
@@ -475,27 +479,6 @@
             NSLog(@"%@", error);
         }];
     }
-}
-/*
-- (NSInteger) getNumberOfLikes:(Media *)mediaItem
-{
-    NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
-    NSDictionary *parameters = @{@"access_token": self.accessToken};
-    
-    if (mediaItem)
-    {
-        [self.instagramOperationManager GET:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([responseObject isKindOfClass:[NSDictionary class]])
-            {
-                mediaItem.numberOfLikes = [[responseObject objectForKey:@"data"] count];
-            }
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"%@", error);
-        }];
-    }
-    
-    return mediaItem.numberOfLikes;
 }
 */
 

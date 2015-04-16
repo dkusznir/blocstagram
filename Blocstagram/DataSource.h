@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Media;
+@class Media, LikeButton;
 
 typedef void (^NewItemCompletionBlock)(NSError *error);
 
@@ -25,6 +25,6 @@ typedef void (^NewItemCompletionBlock)(NSError *error);
 - (void) requestOldItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler;
 - (void) downloadImageForMediaItem:(Media *)mediaItem;
 - (void) toggleLikeOnMediaItem:(Media *)mediaItem;
-- (void) updateNumberOfLikes:(Media *)mediaItem;
+//- (void) updateNumberOfLikes:(Media *)mediaItem;
 
 @end

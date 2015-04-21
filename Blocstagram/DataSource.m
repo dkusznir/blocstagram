@@ -362,7 +362,7 @@
 
 #pragma mark - Liking Media Items
 
-- (void) toggleLikeOnMediaItem:(Media *)mediaItem
+- (void) toggleLikeOnMediaItem:(Media *)mediaItem forLabel:(LikeButton *)button
 {
     NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
     NSDictionary *parameters = @{@"access_token": self.accessToken};
@@ -371,40 +371,44 @@
     if (mediaItem.likeState == likeStateNotLiked) {
         
         mediaItem.likeState = likeStateLiking;
+        mediaItem.numberOfLikes++;
+        button.likeButtonState = likeStateLiked;
         
         [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            mediaItem.numberOfLikes++;
             mediaItem.likeState = likeStateLiked;
-            [self reloadMediaItem:mediaItem];
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"%@", error);
             mediaItem.likeState = likeStateNotLiked;
-            [self reloadMediaItem:mediaItem];
+            mediaItem.numberOfLikes--;
+            button.likeButtonState = likeStateNotLiked;
         }];
         
     } else if (mediaItem.likeState == likeStateLiked) {
         
         mediaItem.likeState = likeStateUnliking;
         
+        if (mediaItem.numberOfLikes == 0)
+        {
+            mediaItem.numberOfLikes = 0;
+        }
+        
+        else
+        {
+            mediaItem.numberOfLikes--;
+        }
+        
+        button.likeButtonState = likeStateNotLiked;
+        
         [self.instagramOperationManager DELETE:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if (mediaItem.numberOfLikes == 0)
-            {
-                mediaItem.numberOfLikes = 0;
-            }
-            
-            else
-            {
-                mediaItem.numberOfLikes--;
-            }
-            
             mediaItem.likeState = likeStateNotLiked;
             likeStateChanged = YES;
-            [self reloadMediaItem:mediaItem];
 
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            mediaItem.likeState = likeStateLiked;
             NSLog(@"%@", error);
-            [self reloadMediaItem:mediaItem];
+            mediaItem.likeState = likeStateLiked;
+            mediaItem.numberOfLikes++;
+            button.likeButtonState = likeStateLiked;
         }];
         
     }
@@ -428,29 +432,34 @@
                 NSLog(@"Couldn't write file: %@", dataError);
             }
         });
-    
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSUInteger numberOfItemsToSave = MIN(self.mediaItems.count, 50);
-            NSArray *mediaItemsToSave = [self.mediaItems subarrayWithRange:NSMakeRange(0, numberOfItemsToSave)];
-            
-            NSString *likePath = [self pathForFileName:NSStringFromSelector(@selector(numberOfLikes))];
-            
-            NSData *mediaItemData = [NSKeyedArchiver archivedDataWithRootObject:mediaItemsToSave];
-            
-            NSError *dataError;
-            
-            BOOL wroteSuccessfully = [mediaItemData writeToFile:likePath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
-            
-            if (!wroteSuccessfully)
-            {
-                NSLog(@"Couldn't write file: %@", dataError);
-            }
-        });
     }
     
-    [self reloadMediaItem:mediaItem];
     
 }
+
+- (void) commentOnMediaItem:(Media *)mediaItem withCommentText:(NSString *)commentText
+{
+    if (!commentText || commentText.length == 0)
+    {
+        return;
+    }
+    
+    NSString *urlString = [NSString stringWithFormat:@"media/%@/comments", mediaItem.idNumber];
+    NSDictionary *parameters = @{@"access_token": self.accessToken, @"text": commentText};
+    
+    [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Media *newMediaItem = [[Media alloc] initWithDictionary:responseObject];
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+        [mutableArrayWithKVO replaceObjectAtIndex:index withObject:newMediaItem];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        NSLog(@"Response: %@", operation.responseString);
+        [self reloadMediaItem:mediaItem];
+    }];
+}
+
 
 - (void) reloadMediaItem:(Media *)mediaItem
 {

@@ -11,8 +11,9 @@
 #import "Comment.h"
 #import "User.h"
 #import "LikeButton.h"
+#import "ComposeCommentView.h"
 
-@interface MediaTableViewCell () <UIGestureRecognizerDelegate>
+@interface MediaTableViewCell () <UIGestureRecognizerDelegate, ComposeCommentViewDelegate>
 
 @property (nonatomic, strong) UIImageView *mediaImageView;
 @property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *twoTapGestureRecognizer;
 @property (nonatomic, strong) LikeButton *likeButton;
 @property (nonatomic, strong) UILabel *numberOfLikes;
+@property (nonatomic, strong) ComposeCommentView *commentView;
 
 @end
 
@@ -66,7 +68,7 @@ static NSParagraphStyle *paragraphStyle;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
-    return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    return CGRectGetMaxY(layoutCell.commentView.frame);
     
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -105,21 +107,24 @@ static NSParagraphStyle *paragraphStyle;
         self.numberOfLikes = [[UILabel alloc] init];
         self.numberOfLikes.font = [UIFont fontWithName:@"Calibri-Bold" size:8];
         self.numberOfLikes.backgroundColor = usernameLabelGray;
+        
+        self.commentView = [[ComposeCommentView alloc] init];
+        self.commentView.delegate = self;
 
         
-        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton, self.numberOfLikes])
+        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton, self.numberOfLikes, self.commentView])
         {
             [self.contentView addSubview:view];
             view.translatesAutoresizingMaskIntoConstraints = NO;
         }
         
-        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _numberOfLikes);
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _numberOfLikes, _commentView);
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel][_numberOfLikes][_likeButton(==38)]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
-        
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel]" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentView]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel][_commentView(==100)]" options:kNilOptions metrics:nil views:viewDictionary]];
         
         self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:100];
         self.usernameAndCaptionLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:100];
@@ -214,8 +219,7 @@ static NSParagraphStyle *paragraphStyle;
 
 - (NSString *)updateNumberOfLikes:(Media *)mediaItem
 {
-    //[self.delegate cellGetNumberOfLikes:self];
-    NSString *numberOfLikesToString = [NSString stringWithFormat:@"%lu", self.mediaItem.numberOfLikes];
+    NSString *numberOfLikesToString = [NSString stringWithFormat:@"%lu", (unsigned long)self.mediaItem.numberOfLikes];
     self.numberOfLikes.text = numberOfLikesToString;
     
     return self.numberOfLikes.text;
@@ -228,15 +232,16 @@ static NSParagraphStyle *paragraphStyle;
     self.usernameAndCaptionLabel.attributedText = [self userNameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = _mediaItem.likeState;
-    self.numberOfLikes.text = [NSString stringWithFormat:@"%lu", _mediaItem.numberOfLikes];
+    self.numberOfLikes.text = [NSString stringWithFormat:@"%lu", (unsigned long)_mediaItem.numberOfLikes];
+    self.commentView.text = mediaItem.temporaryComment;
 }
 
 #pragma mark - Liking
 - (void) likePressed:(UIButton *)sender
 {
-    [self.delegate cellDidPressLikeButton:self];
+    [self.delegate cellDidPressLikeButton:self forLabel:self.likeButton];
     [self updateNumberOfLikes:self.mediaItem];
-    NSLog(@"%ld", self.likeButton.likeButtonState);
+    NSLog(@"%ld", (unsigned long)self.likeButton.likeButtonState);
 
 }
 
@@ -269,4 +274,25 @@ static NSParagraphStyle *paragraphStyle;
     // Configure the view for the selected state
 }
 
+#pragma mark - ComposeCommentViewDelegate
+
+- (void) commentViewDidPressCommentButton:(ComposeCommentView *)sender
+{
+    [self.delegate cell:self didComposeComment:self.mediaItem.temporaryComment];
+}
+
+- (void) commentView:(ComposeCommentView *)sender textDidChange:(NSString *)text
+{
+    self.mediaItem.temporaryComment = text;
+}
+
+- (void) commentViewWillStartEditing:(ComposeCommentView *)sender
+{
+    [self.delegate cellWillStartComposingComment:self];
+}
+
+- (void) stopComposingComment
+{
+    [self.commentView stopComposingComment];
+}
 @end

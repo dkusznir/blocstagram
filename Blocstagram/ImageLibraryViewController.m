@@ -211,7 +211,7 @@
     return view;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ALAsset *asset = self.arraysOfAssets[indexPath.section][indexPath.row];
     ALAssetRepresentation *representation = asset.defaultRepresentation;
@@ -239,9 +239,9 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    NSInteger randMult = arc4random() % 3;
+    NSInteger randMult = arc4random() % 2;
     CGSize size = cell.frame.size;
-    size = CGSizeMake((50 * (randMult + 1)), (50 * (randMult +1)));
+    size = CGSizeMake((100 * (randMult + 1)), (100 * (randMult +1)));
     
     return size;
 }

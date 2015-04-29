@@ -58,10 +58,19 @@
     
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
+    UIImage *cameraButtonImage = [UIImage imageNamed:@"camera"];
+    
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] || [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
     {
-        UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraPressed:)];
+        UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithImage:cameraButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(cameraPressed:)];
         self.navigationItem.rightBarButtonItem = cameraButton;
+    }
+    
+    else
+    {
+        UIBarButtonItem *disabledCameraButton = [[UIBarButtonItem alloc] initWithImage:cameraButtonImage style:UIBarButtonItemStylePlain target:nil action:nil];
+        disabledCameraButton.enabled = NO;
+        self.navigationItem.rightBarButtonItem = disabledCameraButton;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self

@@ -29,6 +29,8 @@
 		AA61D4C01ADFFF1900DFE3F4 /* ComposeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61D4BF1ADFFF1900DFE3F4 /* ComposeCommentView.m */; };
 		AA7951091AD814400033DD49 /* CircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7951081AD814400033DD49 /* CircleSpinnerView.m */; };
 		AA79510C1AD840800033DD49 /* LikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AA79510B1AD840800033DD49 /* LikeButton.m */; };
+		AA9060141AF71D4F00290B8A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9060131AF71D4F00290B8A /* CollectionViewCell.m */; };
+		AAAA74BD1AF10F1A00CC7473 /* PostToInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAA74BC1AF10F1A00CC7473 /* PostToInstagramViewController.m */; };
 		AAB9A7C81AE7EA2300554B0C /* CameraToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9A7C71AE7EA2300554B0C /* CameraToolbar.m */; };
 		AAB9A7CB1AE7F38C00554B0C /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9A7CA1AE7F38C00554B0C /* CameraViewController.m */; };
 		AAB9A7CE1AE92B1800554B0C /* UIImage+ImageUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB9A7CD1AE92B1800554B0C /* UIImage+ImageUtilities.m */; };
@@ -88,6 +90,10 @@
 		AA7951081AD814400033DD49 /* CircleSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleSpinnerView.m; sourceTree = "<group>"; };
 		AA79510A1AD840800033DD49 /* LikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeButton.h; sourceTree = "<group>"; };
 		AA79510B1AD840800033DD49 /* LikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeButton.m; sourceTree = "<group>"; };
+		AA9060121AF71D4F00290B8A /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		AA9060131AF71D4F00290B8A /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		AAAA74BB1AF10F1A00CC7473 /* PostToInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostToInstagramViewController.h; sourceTree = "<group>"; };
+		AAAA74BC1AF10F1A00CC7473 /* PostToInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostToInstagramViewController.m; sourceTree = "<group>"; };
 		AAB9A7C61AE7EA2300554B0C /* CameraToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraToolbar.h; sourceTree = "<group>"; };
 		AAB9A7C71AE7EA2300554B0C /* CameraToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraToolbar.m; sourceTree = "<group>"; };
 		AAB9A7C91AE7F38C00554B0C /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
@@ -267,6 +273,8 @@
 				AAB9A7CA1AE7F38C00554B0C /* CameraViewController.m */,
 				AAB9A7D61AEA998100554B0C /* ImageLibraryViewController.h */,
 				AAB9A7D71AEA998100554B0C /* ImageLibraryViewController.m */,
+				AAAA74BB1AF10F1A00CC7473 /* PostToInstagramViewController.h */,
+				AAAA74BC1AF10F1A00CC7473 /* PostToInstagramViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -274,6 +282,8 @@
 		AA61D4C11ADFFF2900DFE3F4 /* View Objects */ = {
 			isa = PBXGroup;
 			children = (
+				AA9060121AF71D4F00290B8A /* CollectionViewCell.h */,
+				AA9060131AF71D4F00290B8A /* CollectionViewCell.m */,
 				AA4A8D171ABC55190086C23B /* MediaTableViewCell.h */,
 				AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */,
 				AA7951071AD814400033DD49 /* CircleSpinnerView.h */,
@@ -451,6 +461,7 @@
 				AAE1F1571ABB568F0046A783 /* User.m in Sources */,
 				AA24BA3C1ABA1F6900635E2B /* ViewController.m in Sources */,
 				AABDAE5F1ACB4E3C00A9402F /* MediaFullScreenViewController.m in Sources */,
+				AA9060141AF71D4F00290B8A /* CollectionViewCell.m in Sources */,
 				AAB9A7CB1AE7F38C00554B0C /* CameraViewController.m in Sources */,
 				AA79510C1AD840800033DD49 /* LikeButton.m in Sources */,
 				AAB9A7CE1AE92B1800554B0C /* UIImage+ImageUtilities.m in Sources */,
@@ -458,6 +469,7 @@
 				AAB9A7D51AEA8FD300554B0C /* CropImageViewController.m in Sources */,
 				AA24BA361ABA1F6900635E2B /* main.m in Sources */,
 				AABDAE621ACB503000A9402F /* MediaFullScreenAnimator.m in Sources */,
+				AAAA74BD1AF10F1A00CC7473 /* PostToInstagramViewController.m in Sources */,
 				AA7951091AD814400033DD49 /* CircleSpinnerView.m in Sources */,
 				AA24BA731ABA212E00635E2B /* ImagesTableViewController.m in Sources */,
 				AAB9A7D21AEA84E800554B0C /* CropBox.m in Sources */,

@@ -11,7 +11,7 @@
 #import "MediaTableViewCell.h"
 #import "ImagesTableViewController.h"
 
-@interface MediaFullScreenViewController () <UIScrollViewDelegate>
+@interface MediaFullScreenViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
@@ -59,6 +59,7 @@
     if (isPhone == NO)
     {
         self.tapBehind = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBehindFired:)];
+        self.tapBehind.delegate = self;
         self.tapBehind.cancelsTouchesInView = NO;
     }
     
@@ -68,19 +69,28 @@
     CGFloat getMaxX = (CGRectGetMaxX(self.view.frame) - 110);
     CGFloat getMinY = (CGRectGetMinY(self.view.frame) + 20);
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(getMaxX, getMinY, 100, 50)];
-    self.shareButton = button;
-    [self.shareButton setTitle:NSLocalizedString(@"SHARE", @"Share") forState:UIControlStateNormal];
-    self.shareButton.backgroundColor = [UIColor colorWithRed:102/255.0 green:128/255.0 blue:153/255.0 alpha:1];
-    self.shareButton.layer.cornerRadius = 10;
-    self.shareButton.titleLabel.font = [UIFont fontWithName:@"Calibri-Bold" size:20];
-    self.shareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    [self.shareButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchDown];
-    [self.shareButton addTarget:self action:@selector(buttonReleased:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:self.shareButton];
+    if (isPhone)
+    {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(getMaxX, getMinY, 100, 50)];
+        self.shareButton = button;
+        [self.shareButton setTitle:NSLocalizedString(@"SHARE", @"Share") forState:UIControlStateNormal];
+        self.shareButton.backgroundColor = [UIColor colorWithRed:102/255.0 green:128/255.0 blue:153/255.0 alpha:1];
+        self.shareButton.layer.cornerRadius = 10;
+        self.shareButton.titleLabel.font = [UIFont fontWithName:@"Calibri-Bold" size:20];
+        self.shareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        [self.shareButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchDown];
+        [self.shareButton addTarget:self action:@selector(buttonReleased:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:self.shareButton];
+    }
+
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 - (void) buttonPressed:(UIButton *)sender

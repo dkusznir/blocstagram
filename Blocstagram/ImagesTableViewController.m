@@ -25,7 +25,7 @@
 @property (nonatomic, assign) BOOL isScrolling;
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
-@property (nonatomic, strong) UIPopoverController *cameraPopover;
+@property (nonatomic, strong) UIPopoverController *tableViewPopover;
 
 @end
 
@@ -332,7 +332,22 @@
     if (cellPropertiesToShare.count > 0)
     {
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:cellPropertiesToShare applicationActivities:nil];
-        [self presentViewController:activityVC animated:YES completion:nil];
+        
+        if (isPhone)
+        {
+            [self presentViewController:activityVC animated:YES completion:nil];
+        }
+        
+        else
+        {
+            self.tableViewPopover = [[UIPopoverController alloc] initWithContentViewController:activityVC];
+            [cell.contentView.layer setBorderWidth:2.0f];
+            
+            self.tableViewPopover.popoverContentSize = CGSizeMake(320, 500);
+            [self.tableViewPopover presentPopoverFromRect:cell.bounds inView:imageView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            
+        }
+
     }
     
 }
@@ -499,9 +514,10 @@
         
         else
         {
-            self.cameraPopover = [[UIPopoverController alloc] initWithContentViewController:nav];
-            self.cameraPopover.popoverContentSize = CGSizeMake(320, 568);
-            [self.cameraPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            self.tableViewPopover = [[UIPopoverController alloc] initWithContentViewController:nav];
+            self.tableViewPopover.popoverContentSize = CGSizeMake(320, 568);
+            [self.tableViewPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
         }
     }
     
@@ -525,9 +541,10 @@
         
         else
         {
-            [self.cameraPopover dismissPopoverAnimated:YES];
-            self.cameraPopover = nil;
+            [self.tableViewPopover dismissPopoverAnimated:YES];
+            self.tableViewPopover = nil;
         }
+         
     }
 }
 
@@ -539,6 +556,7 @@
 - (void)imageLibraryViewController:(ImageLibraryViewController *)imageLibraryViewController didCompleteWithImage:(UIImage *)image
 {
     [self handleImage:image withNavigationController:imageLibraryViewController.navigationController];
+    
 }
 
 #pragma mark - Popover Handling
@@ -552,9 +570,10 @@
     
     else
     {
-        [self.cameraPopover dismissPopoverAnimated:YES];
-        self.cameraPopover = nil;
+        [self.tableViewPopover dismissPopoverAnimated:YES];
+        self.tableViewPopover = nil;
     }
+    
 }
 
 /*

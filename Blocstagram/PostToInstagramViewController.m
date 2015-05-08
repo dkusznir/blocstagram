@@ -62,7 +62,7 @@
         
         self.sendBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button") style:UIBarButtonItemStyleDone target:self action:@selector(sendButtonPressed:)];
         
-        [self addFiltersToQueue];
+        //[self addFiltersToQueue];
     }
     
     return self;
@@ -195,7 +195,7 @@
 }
 
 #pragma mark - Photo Filters
-
+/*
 - (void)addCIImageToCollectionView:(CIImage *)CIImage withFilterTitle:(NSString *)filterTitle
 {
     UIImage *image = [UIImage imageWithCIImage:CIImage scale:self.sourceImage.scale orientation:self.sourceImage.imageOrientation];
@@ -212,8 +212,9 @@
             
             [self.filterImages addObject:image];
             [self.filterTitles addObject:filterTitle];
-            
+
             [self.filterCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:0]]];
+
         });
     }
 }
@@ -376,7 +377,7 @@
         }
     }];
 }
-
+*/
 - (void)sendButtonPressed:(id)sender
 {
     NSURL *instagramURL = [NSURL URLWithString:@"instagram://location?id=1"];

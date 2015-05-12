@@ -197,7 +197,7 @@
 }
 
 #pragma mark - Photo Filters
-/*
+
 - (void)addCIImageToCollectionView:(CIImage *)CIImage withFilterTitle:(NSString *)filterTitle
 {
     UIImage *image = [UIImage imageWithCIImage:CIImage scale:self.sourceImage.scale orientation:self.sourceImage.imageOrientation];
@@ -379,7 +379,7 @@
         }
     }];
 }
-*/
+
 - (void)sendButtonPressed:(id)sender
 {
     NSURL *instagramURL = [NSURL URLWithString:@"instagram://location?id=1"];

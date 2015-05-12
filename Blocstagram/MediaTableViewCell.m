@@ -132,7 +132,6 @@ static NSParagraphStyle *paragraphStyle;
     {
         [self.delegate cell:self didLongPressImageView:self.mediaImageView];
     }
-    
 }
 
 - (void) twoTapFired:(UITapGestureRecognizer *)sender

@@ -18,7 +18,7 @@
 #import "ImageLibraryViewController.h"
 #import "PostToInstagramViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate, CameraViewControllerDelegate, ImageLibraryViewControllerDelegate>
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, CameraViewControllerDelegate, ImageLibraryViewControllerDelegate>
 
 @property (nonatomic, weak) UIImageView *lastTappedImageView;
 @property (nonatomic, strong) Media *media;
@@ -26,6 +26,7 @@
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
 @property (nonatomic, strong) UIPopoverController *tableViewPopover;
+@property (nonatomic, strong) NSIndexPath *selectedCellPath;
 
 @end
 
@@ -341,7 +342,10 @@
         else
         {
             self.tableViewPopover = [[UIPopoverController alloc] initWithContentViewController:activityVC];
+            self.tableViewPopover.delegate = self;
             [cell.contentView.layer setBorderWidth:2.0f];
+            [cell.contentView.layer setOpacity:0.5f];
+            self.selectedCellPath = [self.tableView indexPathForCell:cell];
             
             self.tableViewPopover.popoverContentSize = CGSizeMake(320, 500);
             [self.tableViewPopover presentPopoverFromRect:cell.bounds inView:imageView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
@@ -350,6 +354,22 @@
 
     }
     
+}
+
+- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    [self revertChangesForCell];
+    NSLog(@"Dismiss Called.");
+}
+
+- (void) revertChangesForCell
+{
+    MediaTableViewCell *cell = [[MediaTableViewCell alloc] init];
+    cell = (MediaTableViewCell *)[self.tableView cellForRowAtIndexPath:self.selectedCellPath];
+    
+    [cell.contentView.layer setBorderWidth:0];
+    [cell.contentView.layer setOpacity:1.0f];
+
 }
 
 - (void) cellDidPressLikeButton:(MediaTableViewCell *)cell forLabel:(LikeButton *)button

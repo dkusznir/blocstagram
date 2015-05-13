@@ -185,8 +185,7 @@
             newIndex = currentIndex + 1;
         }
         
-        AVCaptureDevice *newCamera = [[AVCaptureDevice alloc] init];
-        newCamera = devices[newIndex];
+        AVCaptureDevice *newCamera = devices[newIndex];
         AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
         
         if (newVideoInput)

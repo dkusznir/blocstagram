@@ -57,7 +57,7 @@
 
 - (void) addViewsToViewHierarchy
 {
-    NSMutableArray *views = [@[self.imagePreview, self.cropBox, self.bottomView] mutableCopy];
+    NSMutableArray *views = [@[self.imagePreview, self.cropBox] mutableCopy];
     [views addObject:self.cameraToolbar];
     
     for (UIView *view in views)

@@ -57,7 +57,7 @@
 
 - (void) addViewsToViewHierarchy
 {
-    NSMutableArray *views = [@[self.imagePreview, self.cropBox, self.bottomView] mutableCopy];
+    NSMutableArray *views = [@[self.imagePreview, self.cropBox] mutableCopy];
     [views addObject:self.cameraToolbar];
     
     for (UIView *view in views)
@@ -185,7 +185,8 @@
             newIndex = currentIndex + 1;
         }
         
-        AVCaptureDevice *newCamera = devices[newIndex];
+        AVCaptureDevice *newCamera = [[AVCaptureDevice alloc] init];
+        newCamera = devices[newIndex];
         AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
         
         if (newVideoInput)

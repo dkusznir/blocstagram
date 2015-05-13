@@ -364,8 +364,7 @@
 
 - (void) revertChangesForCell
 {
-    MediaTableViewCell *cell = [[MediaTableViewCell alloc] init];
-    cell = (MediaTableViewCell *)[self.tableView cellForRowAtIndexPath:self.selectedCellPath];
+    MediaTableViewCell *cell = (MediaTableViewCell *)[self.tableView cellForRowAtIndexPath:self.selectedCellPath];
     
     [cell.contentView.layer setBorderWidth:0];
     [cell.contentView.layer setOpacity:1.0f];
@@ -410,6 +409,8 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     
     if (indexPath)
@@ -420,7 +421,7 @@
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-    
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Keyboard Handling

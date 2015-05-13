@@ -368,7 +368,7 @@ NSString *const ImageFinishedNotification = @"ImageFinishedNotification";
 {
     NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
     NSDictionary *parameters = @{@"access_token": self.accessToken};
-    __block BOOL likeStateChanged;
+    __block BOOL likeStateChanged = NO;
     
     if (mediaItem.likeState == likeStateNotLiked) {
         
@@ -415,7 +415,7 @@ NSString *const ImageFinishedNotification = @"ImageFinishedNotification";
         
     }
     
-    if (likeStateChanged == YES)
+    if (likeStateChanged)
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSUInteger numberOfItemsToSave = MIN(self.mediaItems.count, 50);

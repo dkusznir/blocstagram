@@ -12,6 +12,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
+    
+    self = [super init];
     static NSInteger imageViewTag = 1000;
     static NSInteger labelTag = 1001;
     

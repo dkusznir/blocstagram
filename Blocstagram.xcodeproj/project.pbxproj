@@ -25,6 +25,10 @@
 		AA24BA6C1ABA20C400635E2B /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA24BA621ABA20C400635E2B /* 9.jpg */; };
 		AA24BA6D1ABA20C400635E2B /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA24BA631ABA20C400635E2B /* 10.jpg */; };
 		AA24BA731ABA212E00635E2B /* ImagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */; };
+		AA2B223F1B03A227006D248B /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B223E1B03A227006D248B /* UserTests.m */; };
+		AA2B22411B03A2FD006D248B /* CommentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B22401B03A2FD006D248B /* CommentTests.m */; };
+		AA2B22451B03A5DF006D248B /* MediaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B22441B03A5DF006D248B /* MediaTests.m */; };
+		AA2B22491B03BA18006D248B /* ComposeCommentViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B22481B03BA18006D248B /* ComposeCommentViewTests.m */; };
 		AA4A8D191ABC55190086C23B /* MediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */; };
 		AA61D4C01ADFFF1900DFE3F4 /* ComposeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61D4BF1ADFFF1900DFE3F4 /* ComposeCommentView.m */; };
 		AA7951091AD814400033DD49 /* CircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7951081AD814400033DD49 /* CircleSpinnerView.m */; };
@@ -82,6 +86,10 @@
 		AA24BA631ABA20C400635E2B /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
 		AA24BA711ABA212E00635E2B /* ImagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesTableViewController.h; sourceTree = "<group>"; };
 		AA24BA721ABA212E00635E2B /* ImagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesTableViewController.m; sourceTree = "<group>"; };
+		AA2B223E1B03A227006D248B /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
+		AA2B22401B03A2FD006D248B /* CommentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTests.m; sourceTree = "<group>"; };
+		AA2B22441B03A5DF006D248B /* MediaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTests.m; sourceTree = "<group>"; };
+		AA2B22481B03BA18006D248B /* ComposeCommentViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeCommentViewTests.m; sourceTree = "<group>"; };
 		AA4A8D171ABC55190086C23B /* MediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTableViewCell.h; sourceTree = "<group>"; };
 		AA4A8D181ABC55190086C23B /* MediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTableViewCell.m; sourceTree = "<group>"; };
 		AA61D4BE1ADFFF1900DFE3F4 /* ComposeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeCommentView.h; sourceTree = "<group>"; };
@@ -211,6 +219,10 @@
 			children = (
 				AA24BA4F1ABA1F6900635E2B /* BlocstagramTests.m */,
 				AA24BA4D1ABA1F6900635E2B /* Supporting Files */,
+				AA2B223E1B03A227006D248B /* UserTests.m */,
+				AA2B22401B03A2FD006D248B /* CommentTests.m */,
+				AA2B22441B03A5DF006D248B /* MediaTests.m */,
+				AA2B22481B03BA18006D248B /* ComposeCommentViewTests.m */,
 			);
 			path = BlocstagramTests;
 			sourceTree = "<group>";
@@ -482,7 +494,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2B223F1B03A227006D248B /* UserTests.m in Sources */,
+				AA2B22411B03A2FD006D248B /* CommentTests.m in Sources */,
+				AA2B22451B03A5DF006D248B /* MediaTests.m in Sources */,
 				AA24BA501ABA1F6900635E2B /* BlocstagramTests.m in Sources */,
+				AA2B22491B03BA18006D248B /* ComposeCommentViewTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
